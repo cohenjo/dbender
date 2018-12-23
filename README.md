@@ -15,3 +15,10 @@ give it some conf, spin it have and have a nice conversation about db stuff
 - [ ] understand what the heck are you talking about
 - [ ] be active part of your slack channels
 - [ ] be mildely offensive
+
+
+- [ ] external hooks?
+- [ ] volume sizes (resizing?)
+- [ ] operatoion with locks/long running
+- [ ] call huston to annoy anna
+- [ ] check server resource cpu/memory/iops

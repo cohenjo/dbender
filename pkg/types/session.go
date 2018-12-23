@@ -2,6 +2,8 @@ package types
 
 import (
 	"time"
+
+	"github.com/openark/golib/log"
 )
 
 type UserSession struct {
@@ -15,6 +17,8 @@ type UserSession struct {
 	Cluster         string
 	Sentiment       string
 	Updated         time.Time
+	CurrentState    State
+	Confidence      int
 }
 
 // Sessions is a global variable to store bot sessions
@@ -24,6 +28,14 @@ func newSessionManager() *SessionManager {
 	return &SessionManager{
 		Sessions: make(map[string]UserSession),
 		Threads:  make(map[string]UserSession),
+	}
+}
+
+func newUserSession(username string) UserSession {
+	return UserSession{
+		User:         username,
+		CurrentState: NewState(),
+		Confidence:   0,
 	}
 }
 
@@ -38,8 +50,12 @@ func (sm *SessionManager) AddSession(us UserSession) {
 }
 
 func (sm *SessionManager) GetSession(user string) UserSession {
-	return sm.Sessions[user]
-
+	session := sm.Sessions[user]
+	if session.User == "" {
+		log.Info("SM: new session")
+		session = newUserSession(user)
+	}
+	return session
 }
 
 func (sm *SessionManager) GetThread(user string) UserSession {

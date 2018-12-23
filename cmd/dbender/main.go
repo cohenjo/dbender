@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 
+	"github.com/cohenjo/dbender/pkg/chat"
 	"github.com/cohenjo/dbender/pkg/config"
-	"github.com/cohenjo/dbender/pkg/ops"
 	"github.com/openark/golib/log"
 )
 
@@ -20,8 +20,8 @@ func main() {
 	}
 	log.Infof("slack token is: %s, WIT is: %s", config.Config.SalckToken, config.Config.WitAIToken)
 
-	bot := ops.GetNewBot()
-	ops.InitBotRoutes(bot)
+	bot := chat.GetNewBot()
+	chat.InitBotRoutes(bot)
 
 	bot.Run()
 }

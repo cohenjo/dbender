@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"github.com/openark/golib/log"
 
@@ -21,19 +20,24 @@ func main() {
 		config.Read("/etc/bender.conf.json")
 	}
 
-	masterHost, err := ops.GetClusterMaster("localhost")
+	err := ops.CurrentOps("db-mongo-others0a.42.wixprod.net")
 	if err != nil {
-		log.Error("failed to get key", err)
-	}
-	// ops.Report(masterHost)
-	locks, err := ops.CheckLocks(masterHost)
-	if err != nil {
-		log.Error("failed to get locks", err)
+		log.Error("failed to get mongo ops", err)
 	}
 
-	// Get column names
-	for _, lock := range locks {
-		fmt.Printf("lock: %s\n", lock)
-	}
+	// masterHost, err := ops.GetClusterMaster("localhost")
+	// if err != nil {
+	// 	log.Error("failed to get key", err)
+	// }
+	// // ops.Report(masterHost)
+	// locks, err := ops.CheckLocks(masterHost)
+	// if err != nil {
+	// 	log.Error("failed to get locks", err)
+	// }
+
+	// // Get column names
+	// for _, lock := range locks {
+	// 	fmt.Printf("lock: %s\n", lock)
+	// }
 
 }
