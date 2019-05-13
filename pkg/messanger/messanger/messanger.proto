@@ -1,0 +1,21 @@
+
+
+syntax = "proto3";
+
+
+service messanger {
+    rpc SendMessage(MessageRequest) returns (MessageReply) {}
+}
+
+
+// The request message containing the user's name.
+message MessageRequest {
+  string msg = 1;
+  string body = 2;
+  string channel = 3;
+}
+
+// The response message containing the greetings
+message MessageReply {
+  string message = 1;
+}

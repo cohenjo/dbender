@@ -6,6 +6,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/golang/protobuf v1.2.0
 	github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db // indirect
 	github.com/google/go-cmp v0.2.0 // indirect
 	github.com/gorilla/websocket v1.4.0
@@ -18,17 +19,17 @@ require (
 	github.com/mitchellh/go-homedir v1.0.0
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/mongodb/mongo-go-driver v0.1.0
-	github.com/nlopes/slack v0.4.0
+	github.com/nlopes/slack v0.5.0
 	github.com/openark/golib v0.0.0-20160517134830-4a5b6d405140
 	github.com/outbrain/golib v0.0.0-20180830062331-ab954725f502
-	github.com/pkg/errors v0.8.0
+	github.com/pkg/errors v0.8.1
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/rs/zerolog v1.14.3
 	github.com/stretchr/testify v1.2.2 // indirect
 	github.com/wit-ai/wit-go v0.0.3
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9 // indirect
-	golang.org/x/net v0.0.0-20181114220301-adae6a3d119a
-	golang.org/x/sync v0.0.0-20181108010431-42b317875d0f // indirect
+	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	google.golang.org/appengine v1.3.0
+	google.golang.org/grpc v1.20.1
 )
