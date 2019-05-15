@@ -33,8 +33,11 @@ func (s *server) SendMessage(ctx context.Context, in *pb.MessageRequest) (*pb.Me
 	
 	log.Info().Msgf("Received: %v", in.Msg)
 	
-
-	s.slackAPI.PostMessage(in.Channel, slack.MsgOptionText(in.Msg, false))
+	mso := slack.MsgOptionCompose(
+		slack.MsgOptionText(in.Msg, false),
+		slack.MsgOptionUsername("dbender"),
+	)
+	s.slackAPI.PostMessage(in.Channel, mso)
 	return &pb.MessageReply{Message: "Hello " + in.Msg}, nil
 }
 
@@ -53,3 +56,4 @@ func Serve() {
 		log.Error().Err(err).Msg("failed to serve: %v")
 	}
 }
+
