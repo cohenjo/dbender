@@ -3,7 +3,6 @@ module github.com/cohenjo/dbender
 require (
 	github.com/BeepBoopHQ/go-slackbot v0.0.0-20160119063952-58027c0d5238
 	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.2.1
-	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/protobuf v1.2.0
@@ -19,13 +18,11 @@ require (
 	github.com/mitchellh/go-homedir v1.0.0
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/mongodb/mongo-go-driver v0.1.0
-	github.com/nlopes/slack v0.5.0
+	github.com/nlopes/slack v0.5.1-0.20190515005541-e2954b1409b0
 	github.com/openark/golib v0.0.0-20160517134830-4a5b6d405140
 	github.com/outbrain/golib v0.0.0-20180830062331-ab954725f502
 	github.com/pkg/errors v0.8.1
-	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.14.3
-	github.com/stretchr/testify v1.2.2 // indirect
 	github.com/wit-ai/wit-go v0.0.3
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect

@@ -13,8 +13,9 @@ message MessageRequest {
   string msg = 1;
   string body = 2;
   string channel = 3;
-  string type = 4;
-  
+  string type = 4; 
+  map<string, string> bag = 5;
+
 }
 
 // The response message containing the greetings

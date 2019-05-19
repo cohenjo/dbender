@@ -9,6 +9,7 @@ import (
 	"context"
 	"github.com/rs/zerolog/log"
 	"net"
+	"fmt"
 
 	"google.golang.org/grpc"
 	"github.com/nlopes/slack"
@@ -22,6 +23,10 @@ const (
 	port = ":50051"
 )
 
+var (
+	messages map[string]string
+)
+
 
 // server is used to implement messanger.GreeterServer.
 type server struct{
@@ -30,43 +35,19 @@ type server struct{
 
 // SendMessage implements helloworld.GreeterServer
 func (s *server) SendMessage(ctx context.Context, in *pb.MessageRequest) (*pb.MessageReply, error) {
-	
-	log.Info().Msgf("Received: %v", in.Msg)
-	
-	attachment := slack.Attachment{
-		Pretext: in.Msg,
-		Text:    in.Body,
-		Color: "danger",
-		AuthorName: "Lonely Sheep",
-		
-		Fields: []slack.AttachmentField{
-			slack.AttachmentField{
-				Title: "fears",
-				Value: "BIG WOLF",
-			},
-			slack.AttachmentField{
-				Title: "severity",
-				Value: "Urgent",
-			},
-			slack.AttachmentField{
-				Title: "Host",
-				Value: "lonely.sheep.big.wolf.dinner",
-			},
-		},
-		MarkdownIn: []string{"*This is Bold*"},
+	var msg slack.MsgOption
+	switch in.Type {
+	default:
+		msg = generateDefaultMessage(ctx,in)
 	}
-
-	mso := slack.MsgOptionCompose(
-		// slack.MsgOptionText(in.Msg, false),
-		slack.MsgOptionUsername("dbender"),
-		// slack.MsgOptionIconEmoji("alert"),
-		slack.MsgOptionAttachments(attachment),
-	)
-	s.slackAPI.PostMessage(in.Channel, mso)
-	return &pb.MessageReply{Message: "Hello " + in.Msg}, nil
+	
+	cnl, rts, err := s.slackAPI.PostMessage(in.Channel, msg)
+	return &pb.MessageReply{Message: "channel: " + cnl + ", ts: " + rts}, err
 }
 
 func Serve() {
+
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Error().Err(err).Msg("failed to listen")
@@ -82,3 +63,41 @@ func Serve() {
 	}
 }
 
+func registerMessageTemplate(name, template string) {
+	if messages == nil {
+		messages = make(map[string]string)
+	}
+	messages[name] = template
+}
+
+func generateDefaultMessage(ctx context.Context, in *pb.MessageRequest) slack.MsgOption {
+	
+	/* EXAMPLE - REPLACE THIS!*/
+	headerText := slack.NewTextBlockObject("mrkdwn",in.Msg, false, false)
+	headerSection := slack.NewSectionBlock(headerText, nil, nil)
+
+	bodyText := slack.NewTextBlockObject("mrkdwn", in.Body, false, false)
+	bodyAccessory := slack.NewImageBlockElement("https://api.slack.com/img/blocks/bkb_template_images/notifications.png", "calendar thumbnail")
+	bodySection := slack.NewSectionBlock(bodyText, nil, slack.NewAccessory(bodyAccessory))
+
+	// Fields
+	fieldSlice := make([]*slack.TextBlockObject, 0)
+	for k, v := range in.Bag {
+		txt := fmt.Sprintf("*%s:*\n%s",k,v)
+		fieldSlice = append(fieldSlice, slack.NewTextBlockObject("mrkdwn", txt, false, false))
+
+	}
+	fieldsSection := slack.NewSectionBlock(nil, fieldSlice, nil)
+
+	msg := slack.MsgOptionCompose(
+		slack.MsgOptionUsername("dbender"),
+		slack.MsgOptionBlocks(
+			headerSection,
+			slack.NewDividerBlock(),
+			bodySection,
+			slack.NewDividerBlock(),
+			fieldsSection,
+		),
+	)
+	return msg
+}

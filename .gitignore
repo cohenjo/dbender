@@ -1,6 +1,8 @@
 conf/*
 vendor/
 
+*.pb.go
+
 # only used to get schema packages - not realy part of project
 pkg/dal/
 cmd/schema/
