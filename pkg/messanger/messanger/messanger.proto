@@ -13,6 +13,8 @@ message MessageRequest {
   string msg = 1;
   string body = 2;
   string channel = 3;
+  string type = 4;
+  
 }
 
 // The response message containing the greetings

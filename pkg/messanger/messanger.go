@@ -33,9 +33,34 @@ func (s *server) SendMessage(ctx context.Context, in *pb.MessageRequest) (*pb.Me
 	
 	log.Info().Msgf("Received: %v", in.Msg)
 	
+	attachment := slack.Attachment{
+		Pretext: in.Msg,
+		Text:    in.Body,
+		Color: "danger",
+		AuthorName: "Lonely Sheep",
+		
+		Fields: []slack.AttachmentField{
+			slack.AttachmentField{
+				Title: "fears",
+				Value: "BIG WOLF",
+			},
+			slack.AttachmentField{
+				Title: "severity",
+				Value: "Urgent",
+			},
+			slack.AttachmentField{
+				Title: "Host",
+				Value: "lonely.sheep.big.wolf.dinner",
+			},
+		},
+		MarkdownIn: []string{"*This is Bold*"},
+	}
+
 	mso := slack.MsgOptionCompose(
-		slack.MsgOptionText(in.Msg, false),
+		// slack.MsgOptionText(in.Msg, false),
 		slack.MsgOptionUsername("dbender"),
+		// slack.MsgOptionIconEmoji("alert"),
+		slack.MsgOptionAttachments(attachment),
 	)
 	s.slackAPI.PostMessage(in.Channel, mso)
 	return &pb.MessageReply{Message: "Hello " + in.Msg}, nil

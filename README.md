@@ -16,7 +16,7 @@ example:
 ```bash
 go generate github.com/cohenjo/dbender/pkg/messanger/...
 go run cmd/messanger/main.go
-grpc_cli call localhost:50051 SendMessage "msg: 'test', body: 'life', channel: '@cohenjo'
+go run cmd/messanger_client/main.go -msg 'testing' -body 'life' -channel='#dbutils'
 ```
 
 

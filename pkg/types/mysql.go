@@ -53,8 +53,8 @@ type StatementsWithRuntimesIn95thPercentile struct {
 	Rows_Sent_Avg     float64        `column:"rows_sent_avg" default:"0" type:"decimal(21,0)" key:"" null:"NO" extra:""`
 	Rows_Examined     string         `column:"rows_examined" default:"" type:"bigint(20) unsigned" key:"" null:"NO" extra:""`
 	Rows_Examined_Avg float64        `column:"rows_examined_avg" default:"0" type:"decimal(21,0)" key:"" null:"NO" extra:""`
-	First_Seen        time.Time      `column:"first_seen" default:"0000-00-00 00:00:00" type:"timestamp" key:"" null:"NO" extra:""`
-	Last_Seen         time.Time      `column:"last_seen" default:"0000-00-00 00:00:00" type:"timestamp" key:"" null:"NO" extra:""`
+	First_Seen        []uint8        `column:"first_seen" default:"0000-00-00 00:00:00" type:"timestamp" key:"" null:"NO" extra:""`
+	Last_Seen         []uint8        `column:"last_seen" default:"0000-00-00 00:00:00" type:"timestamp" key:"" null:"NO" extra:""`
 	Digest            string         `column:"digest" default:"" type:"varchar(32)" key:"" null:"YES" extra:""`
 }
 

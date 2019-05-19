@@ -68,7 +68,7 @@ func ReplyToThreadWithFile(ctx context.Context, bot *slackbot.Bot, msg *slack.Me
 	fileParams.Channels = append(fileParams.Channels, msg.Msg.Channel)
 	uploadedFile, err := bot.Client.UploadFile(fileParams)
 	if err != nil {
-		log.Errorf("Bot failed to upload file\n", err)
+		log.Errorf("Bot failed to upload file\n, %v", err)
 		return
 	}
 	log.Infof("File uploaded - check permlink: %s\n", uploadedFile.Permalink)
