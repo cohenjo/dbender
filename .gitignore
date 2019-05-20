@@ -1,5 +1,6 @@
 conf/*
 vendor/
+build/dist
 
 # only used to get schema packages - not realy part of project
 pkg/dal/
