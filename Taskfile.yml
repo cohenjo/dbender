@@ -1,0 +1,36 @@
+# https://taskfile.dev
+
+version: '2'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  run:
+    desc: Run messanger server
+    cmds:
+      - GO111MODULE=on go run cmd/messanger/main.go
+    sources:
+      - pkg/**/*.go
+    method: checksum
+
+    
+  mod:
+    desc: download relevate modules
+    cmds:
+      - GO111MODULE=on go mod download
+
+  package:
+    desc: package a new release
+    cmds:
+      - git tag -am {{.VERSION}} {{.VERSION}}
+      - git push 
+      - goreleaser --rm-dist
+    vars: 
+      VERSION: 
+        sh: git semver --next-patch

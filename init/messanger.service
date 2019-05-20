@@ -1,0 +1,14 @@
+[Unit]
+Description=Messanger Daemon
+Documentation=man:some-fake-docs(8)
+
+[Service]
+Type=simple
+PIDFile=/var/run/messanger.pid
+LimitNOFILE=65512
+WorkingDirectory=/usr/local/messanger
+ExecStart=/usr/local/messanger/messanger 
+
+[Install]
+WantedBy=multi-user.target
+Alias=messanger.service
