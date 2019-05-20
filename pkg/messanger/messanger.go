@@ -19,10 +19,6 @@ import (
 
 )
 
-const (
-	port = ":50051"
-)
-
 var (
 	messages map[string]string
 )
@@ -48,7 +44,7 @@ func (s *server) SendMessage(ctx context.Context, in *pb.MessageRequest) (*pb.Me
 func Serve() {
 
 
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", config.Config.Address)
 	if err != nil {
 		log.Error().Err(err).Msg("failed to listen")
 	}

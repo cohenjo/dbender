@@ -1,10 +1,10 @@
 package config
 
 import (
-	"encoding/json"
-	"os"
-
-	"github.com/openark/golib/log"
+	"github.com/fsnotify/fsnotify"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 )
 
 type Configuration struct {
@@ -16,32 +16,51 @@ type Configuration struct {
 	KVConsulPrefix string // Prefix to use for clusters' masters entries in KV stores (internal, consul, ZK), default: "mysql/master"
 	User           string
 	Password       string
+	Address        string
 }
 
 // Config is *the* configuration instance, used globally to get configuration data
-var Config = newConfiguration()
+var Config *Configuration
 
-func newConfiguration() *Configuration {
-	return &Configuration{
-		Debug:          false,
-		ConsulAddress:  "dbmng-shepherd0a.42.wixprod.net:8500",
-		ConsulAclToken: "",
-		KVConsulPrefix: "db/mysql/master",
+// LoadConfiguration loads configuration using viper
+func LoadConfiguration() *Configuration {
+
+	viper.SetDefault("Debug", true)
+	viper.SetDefault("Address", ":50051")
+
+	viper.SetConfigName("messanger")        // name of config file (without extension)
+	viper.AddConfigPath("/etc/")            // path to look for the config file in
+	viper.AddConfigPath("$HOME/.messanger") // call multiple times to add many search paths
+	viper.AddConfigPath("./conf")           // optionally look for config in the working directory
+	err := viper.ReadInConfig()             // Find and read the config file
+	if err != nil {                         // Handle errors reading the config file
+		log.Error().Err(err).Msg("Fatal error config file")
 	}
+
+	viper.WatchConfig()
+	viper.OnConfigChange(reloadConfig)
+	var cfg Configuration
+	err = viper.Unmarshal(&cfg)
+	if err != nil {
+		log.Error().Err(err).Msg("unable to decode into struct")
+	}
+
+	log.Debug().Msgf("configuration loaded: %+v", cfg)
+
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if cfg.Debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+	Config = &cfg
+	return &cfg
 }
 
-// Read reads configuration from given file, or silently skips if the file does not exist.
-// If the file does exist, then it is expected to be in valid JSON format or the function bails out.
-func Read(fileName string) (*Configuration, error) {
-	file, err := os.Open(fileName)
-	if err == nil {
-		decoder := json.NewDecoder(file)
-		err := decoder.Decode(Config)
-		if err == nil {
-			log.Infof("Read config: %s", fileName)
-		} else {
-			log.Fatal("Cannot read config file:", fileName, err)
-		}
+func reloadConfig(e fsnotify.Event) {
+	log.Info().Msgf("Config file changed: %v", e.Name)
+	var cfg Configuration
+	err := viper.Unmarshal(&cfg)
+	if err != nil {
+		log.Error().Err(err).Msg("unable to decode into struct")
 	}
-	return Config, err
+	Config = &cfg
 }

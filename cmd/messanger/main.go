@@ -8,6 +8,6 @@ import (
 
 
 func main() {
-	config.Read("conf/bender.conf.json")
+	config.LoadConfiguration()
 	messanger.Serve()
 }
