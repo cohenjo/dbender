@@ -8,6 +8,7 @@ before:
     # - go generate ./...
 builds:
 - main: ./cmd/messanger/main.go
+  binary: messanger
   env:
   - CGO_ENABLED=0
   goos:
