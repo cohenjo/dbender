@@ -16,7 +16,7 @@ require (
 	github.com/rs/zerolog v1.14.3
 	github.com/spf13/viper v1.4.0
 	github.com/wit-ai/wit-go v0.0.3
-	golang.org/x/net v0.0.0-20211209124913-491a49abca63
+	golang.org/x/net v0.7.0
 	google.golang.org/grpc v1.25.1
 )
 
@@ -58,9 +58,9 @@ require (
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.1.0 // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/appengine v1.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
